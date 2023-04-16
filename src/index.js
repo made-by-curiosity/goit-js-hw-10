@@ -28,7 +28,6 @@ function onSearchInput(e) {
   // достаём список стран по имени из строки поиска
   fetchCountries(nameToSearch)
     .then(country => {
-      console.log(country);
       // рисуем инфу о стране если нашло одну страну
       if (country.length === 1) {
         refs.countryInfo.innerHTML = makeCountryMarkup(country);
@@ -68,15 +67,16 @@ function makeCountriesMarkup(countries) {
   let markup = '';
 
   countries.forEach(country => {
-    markup += `<li><img src=${country.flags.png} alt=${country.flags.alt} /> <span> ${country.name.official}</span></li>`;
+    markup += `<li><img src=${country.flags.png} width="25" alt=${country.flags.alt} /> <span> ${country.name.official}</span></li>`;
   });
+
   return markup;
 }
 
 function makeCountryMarkup(countries) {
   const languages = Object.values(countries[0].languages).join(', ');
 
-  const markup = `<p><img src=${countries[0].flags.png} alt=${countries[0].flags.alt} /> <span> ${countries[0].name.official}</span></p><p><span class="country-desc">Capital: ${countries[0].capital}</span></p><p><span class="country-desc">Population: ${countries[0].population}</span></p><p><span class="country-desc">Languages: </span>${languages}</p>`;
+  const markup = `<p class="country-title"><img src=${countries[0].flags.png} alt=${countries[0].flags.alt} width="25" /> <span class="country-name">${countries[0].name.official}</span></p><p><b>Capital: </b>${countries[0].capital}</p><p><b>Population: </b>${countries[0].population}</p><p><b>Languages: </b>${languages}</p>`;
 
   return markup;
 }
