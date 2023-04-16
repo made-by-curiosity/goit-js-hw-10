@@ -76,7 +76,7 @@ function makeCountriesMarkup(countries) {
 function makeCountryMarkup(countries) {
   const languages = Object.values(countries[0].languages).join(', ');
 
-  const markup = `<p class="country-title"><img src=${countries[0].flags.png} alt=${countries[0].flags.alt} width="25" /> <span class="country-name">${countries[0].name.official}</span></p><p><b>Capital: </b>${countries[0].capital}</p><p><b>Population: </b>${countries[0].population}</p><p><b>Languages: </b>${languages}</p>`;
+  const markup = `<p class="country-title"><img src=${countries[0].flags.png} width="25" alt=${countries[0].flags.alt} /> <span class="country-name">${countries[0].name.official}</span></p><p><b>Capital: </b>${countries[0].capital}</p><p><b>Population: </b>${countries[0].population}</p><p><b>Languages: </b>${languages}</p>`;
 
   return markup;
 }
