@@ -15,42 +15,42 @@ refs.inputSearch.addEventListener(
   debounce(onSearchInput, DEBOUNCE_DELAY)
 );
 
-function onSearchInput(e) {
-  const nameToSearch = e.target.value.trim();
-  refs.countriesList.innerHTML = '';
-  refs.countryInfo.innerHTML = '';
+async function onSearchInput(e) {
+  try {
+    const nameToSearch = e.target.value.trim();
+    refs.countriesList.innerHTML = '';
+    refs.countryInfo.innerHTML = '';
 
-  // если поле поиска пустое или очистили
-  if (nameToSearch === '') {
-    return;
-  }
+    // если поле поиска пустое или очистили
+    if (nameToSearch === '') {
+      return;
+    }
 
-  // достаём список стран по имени из строки поиска
-  fetchCountries(nameToSearch)
-    .then(country => {
-      // рисуем инфу о стране если нашло одну страну
-      if (country.length === 1) {
-        refs.countryInfo.innerHTML = makeCountryMarkup(country);
-      }
+    // достаём список стран по имени из строки поиска
+    const country = await fetchCountries(nameToSearch);
 
-      // рисуем список стран если нашло больше одной страны
-      if (country.length > 1 && country.length <= 10) {
-        refs.countriesList.innerHTML = makeCountriesMarkup(country);
-      }
+    // рисуем инфу о стране если нашло одну страну
+    if (country.length === 1) {
+      refs.countryInfo.innerHTML = makeCountryMarkup(country);
+    }
 
-      // уведомление если стран больше 10ти
-      if (country.length > 10) {
-        showTooManyCountriesMessage();
-      }
-    })
+    // рисуем список стран если нашло больше одной страны
+    if (country.length > 1 && country.length <= 10) {
+      refs.countriesList.innerHTML = makeCountriesMarkup(country);
+    }
+
+    // уведомление если стран больше 10ти
+    if (country.length > 10) {
+      showTooManyCountriesMessage();
+    }
+  } catch (error) {
     // уведомление если страну не получилось найти
-    .catch(error => {
-      if (error.message === '404') {
-        showErrorMessage();
-        return;
-      }
-      throw new Error(error);
-    });
+    if (error.message === '404') {
+      showErrorMessage();
+      return;
+    }
+    throw new Error(error);
+  }
 }
 
 function showErrorMessage() {
